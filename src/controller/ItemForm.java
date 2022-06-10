@@ -75,6 +75,10 @@ public class ItemForm implements Initializable {
                 txtName.clear();
                 txtQuantity.clear();
                 txtUnitPrice.clear();
+                txtId.setDisable(true);
+                txtName.setDisable(true);
+                txtQuantity.setDisable(true);
+                txtUnitPrice.setDisable(true);
             }
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.WARNING, "The data supplied is of the wrong type!", ButtonType.CLOSE);
@@ -100,6 +104,10 @@ public class ItemForm implements Initializable {
             txtName.clear();
             txtQuantity.clear();
             txtUnitPrice.clear();
+            txtId.setDisable(true);
+            txtName.setDisable(true);
+            txtQuantity.setDisable(true);
+            txtUnitPrice.setDisable(true);
         }
     }
 
@@ -130,7 +138,7 @@ public class ItemForm implements Initializable {
 
                 btnSave.setText("Update");
 
-                txtId.setDisable(false);
+                txtId.setDisable(true);
                 txtName.setDisable(false);
                 txtQuantity.setDisable(false);
                 txtUnitPrice.setDisable(false);
