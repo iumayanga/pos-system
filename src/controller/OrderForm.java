@@ -114,7 +114,7 @@ public class OrderForm implements Initializable {
                 OrderTM orderTM =  arrayList.get(i);
 
                 if (orderTM.getId()==txtId.getText() && orderTM.getCustomerId()==txtCustomerId.getText() && orderTM.getItemId()==txtItemId.getText()){
-                    arrayList.remove(i);
+                    arrayList.remove(orderTM);
                 }
             }
 
@@ -138,6 +138,8 @@ public class OrderForm implements Initializable {
         tblOrder.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("itemQuantity"));
         tblOrder.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("value"));
 
+        btnPrint.setDisable(true);
+
         tblOrder.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<OrderTM>() {
             @Override
             public void changed(ObservableValue<? extends OrderTM> observable, OrderTM oldValue, OrderTM newValue) {
@@ -149,8 +151,6 @@ public class OrderForm implements Initializable {
                 txtItemQuantity.setDisable(true);
                 btnSave.setDisable(true);
 
-                txtId.setText(selectedItem.getId());
-                txtCustomerId.setText(selectedItem.getCustomerId());
                 txtItemId.setText(selectedItem.getItemId());
                 txtItemQuantity.setText(Integer.toString(selectedItem.getItemQuantity()));
             }
@@ -173,6 +173,10 @@ public class OrderForm implements Initializable {
         txtCustomerId.setDisable(true);
         txtItemId.setDisable(true);
         txtItemQuantity.setDisable(true);
+
+        btnSave.setDisable(true);
+        btnDelete.setDisable(true);
+        btnPrint.setDisable(false);
     }
 
     public void btnPrint_OnAction() {
@@ -184,6 +188,10 @@ public class OrderForm implements Initializable {
         txtCustomerId.setDisable(false);
         txtItemId.setDisable(false);
         txtItemQuantity.setDisable(false);
+
+        btnSave.setDisable(false);
+        btnDelete.setDisable(false);
+        btnPrint.setDisable(true);
     }
 
     public void billHead(){
@@ -191,25 +199,25 @@ public class OrderForm implements Initializable {
         orderTM = arrayList.get(0);
         txtAreaBill.appendText("FOOD CITY\n" +
                 "===================================\n" +
-                "Order id: '"+orderTM.getId()+"'\n" +
-                "Customer id: '"+orderTM.getCustomerId()+"'\n" +
-                "===================================\n\n\n");
+                "Order id: "+orderTM.getId()+"\n" +
+                "Customer id: "+orderTM.getCustomerId()+"\n" +
+                "===================================\n\n");
     }
 
     public void billBody(){
         OrderTM orderTM = new OrderTM();
         ItemTM itemTM = new ItemTM();
-        txtAreaBill.appendText("Item | Quantity | Unit Price | Value \n");
+        txtAreaBill.appendText("Item  ||  Quantity  ||  Unit Price  ||  Value\n\n");
 
         for (int i = 0; i < arrayList.size(); i++) {
             orderTM =  arrayList.get(i);
             itemTM = getData.singleItem(orderTM.getItemId());
 
-            txtAreaBill.appendText("'"+itemTM.getName()+"' | '"+orderTM.getItemQuantity()+"' | '"+itemTM.getUnitPrice()+"' | '"+orderTM.getValue()+"'\n");
+            txtAreaBill.appendText(i+1 + ".\t"+itemTM.getName()+"  ||  "+orderTM.getItemQuantity()+"  ||  "+itemTM.getUnitPrice()+"  ||  "+orderTM.getValue()+"\n");
 
             billAmount += orderTM.getValue();
         }
 
-        txtAreaBill.appendText("Total amount: "+billAmount);
+        txtAreaBill.appendText("\n\n\n\nTotal amount: "+billAmount);
     }
 }
