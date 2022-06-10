@@ -67,6 +67,9 @@ public class CustomerForm implements Initializable {
             txtId.clear();
             txtName.clear();
             txtAddress.clear();
+            txtId.setDisable(true);
+            txtName.setDisable(true);
+            txtAddress.setDisable(true);
         }
     }
 
@@ -87,6 +90,9 @@ public class CustomerForm implements Initializable {
             txtId.clear();
             txtName.clear();
             txtAddress.clear();
+            txtId.setDisable(true);
+            txtName.setDisable(true);
+            txtAddress.setDisable(true);
         }
     }
 
@@ -115,7 +121,7 @@ public class CustomerForm implements Initializable {
 
                 btnSave.setText("Update");
 
-                txtId.setDisable(false);
+                txtId.setDisable(true);
                 txtName.setDisable(false);
                 txtAddress.setDisable(false);
 
