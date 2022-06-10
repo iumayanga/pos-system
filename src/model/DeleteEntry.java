@@ -32,10 +32,10 @@ public class DeleteEntry {
         return successful;
     }
 
-    public int orders(String customerId, String itemId){
+    public int orders(String id){
         try {
             Statement statement = connection.createStatement();
-            successful = statement.executeUpdate("DELETE FROM orders WHERE cId='"+customerId+"' AND iId='"+itemId+"'");
+            successful = statement.executeUpdate("DELETE FROM orders WHERE oId='"+id+"'");
         }catch (Exception e){
             System.out.println(e);
         }
