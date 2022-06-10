@@ -34,15 +34,4 @@ public class UpdateEntry {
 
         return successful;
     }
-
-    public int orders(OrderTM orderTM){
-        try {
-            Statement statement = connection.createStatement();
-            successful = statement.executeUpdate("UPDATE orders SET iQuantity='"+orderTM.getItemQuantity()+"', oValue='"+orderTM.getValue()+"' WHERE cId='"+orderTM.getCustomerId()+"' AND iId='"+orderTM.getItemId()+"'");
-        }catch (Exception e){
-            System.out.println(e);
-        }
-
-        return successful;
-    }
 }
