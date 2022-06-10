@@ -3,7 +3,6 @@ package controller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -22,19 +21,18 @@ import java.util.ResourceBundle;
 
 public class OrderForm implements Initializable {
     public Button btnBack;
-    public Button btnNew;
     public Button btnSave;
     public Button btnDelete;
     public TextField txtCustomerId;
     public TextField txtItemId;
     public TextField txtItemQuantity;
     public TableView<OrderTM> tblOrder;
+    public Button btnFinish;
+    public TextField txtId;
 
     int successful = 0;
 
     GetData getData = new GetData();
-
-    ObservableList<OrderTM> observableList;
 
     public void btnBack_OnAction() {
         Stage stage = (Stage) btnBack.getScene().getWindow();
@@ -43,20 +41,9 @@ public class OrderForm implements Initializable {
         formLoader.loadForm("Dashboard");
     }
 
-    public void btnNew_OnAction() {
-        txtCustomerId.setDisable(false);
-        txtItemId.setDisable(false);
-        txtItemQuantity.setDisable(false);
-
-        btnSave.setText("Save");
-
-        txtCustomerId.clear();
-        txtItemId.clear();
-        txtItemQuantity.clear();
-    }
-
     public void btnSave_OnAction() {
         OrderTM order = new OrderTM();
+        order.setId(txtId.getText());
         order.setCustomerId(txtCustomerId.getText());
         order.setItemId(txtItemId.getText());
         order.setItemQuantity(Integer.parseInt(txtItemQuantity.getText()));
@@ -78,14 +65,20 @@ public class OrderForm implements Initializable {
         }else {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Maximum amount of "+item.getName()+" is "+Integer.toString(currentQuantity), ButtonType.OK);
             alert.showAndWait();
-            btnNew_OnAction();
+            txtItemQuantity.clear();
         }
 
         if (successful > 0){
-            observableList.clear();
-            observableList = getData.orders();
-            tblOrder.setItems(observableList);
+            String id = order.getId();
+            String customerId = order.getCustomerId();
+            String itemId = order.getItemId();
+            int itemQuantity = order.getItemQuantity();
+            int value = order.getValue();
 
+            ObservableList<OrderTM> orderTable = tblOrder.getItems();
+            orderTable.add(new OrderTM(id, customerId, itemId, itemQuantity, value));
+
+            txtId.setDisable(true);
             txtCustomerId.clear();
             txtItemId.clear();
             txtItemQuantity.clear();
@@ -98,7 +91,7 @@ public class OrderForm implements Initializable {
 
         if(buttonType.get() == ButtonType.YES){
             DeleteEntry deleteEntry = new DeleteEntry();
-            successful = deleteEntry.orders(txtCustomerId.getText(), txtItemId.getText());
+            successful = deleteEntry.orders(txtId.getText());
 
             ItemTM item = new ItemTM();
             item = getData.singleItem(txtItemId.getText());
@@ -110,10 +103,11 @@ public class OrderForm implements Initializable {
         }
 
         if (successful > 0){
-            observableList.clear();
-            observableList = getData.orders();
-            tblOrder.setItems(observableList);
+            OrderTM selectedItem = tblOrder.getSelectionModel().getSelectedItem();
+            tblOrder.getItems().remove(selectedItem);
+            tblOrder.getSelectionModel().clearSelection();
 
+            txtId.setDisable(true);
             txtCustomerId.clear();
             txtItemId.clear();
             txtItemQuantity.clear();
@@ -122,24 +116,24 @@ public class OrderForm implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tblOrder.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        tblOrder.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("itemId"));
-        tblOrder.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("itemQuantity"));
-        tblOrder.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("value"));
-
-        observableList = getData.orders();
-        tblOrder.setItems(observableList);
-
-        disableTextFields();
+        tblOrder.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
+        tblOrder.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("customerId"));
+        tblOrder.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        tblOrder.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("itemQuantity"));
+        tblOrder.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("value"));
 
         tblOrder.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<OrderTM>() {
             @Override
             public void changed(ObservableValue<? extends OrderTM> observable, OrderTM oldValue, OrderTM newValue) {
                 OrderTM selectedItem = tblOrder.getSelectionModel().getSelectedItem();
 
-                disableTextFields();
+                txtId.setDisable(true);
+                txtCustomerId.setDisable(true);
+                txtItemId.setDisable(true);
+                txtItemQuantity.setDisable(true);
                 btnSave.setDisable(true);
 
+                txtId.setText(selectedItem.getId());
                 txtCustomerId.setText(selectedItem.getCustomerId());
                 txtItemId.setText(selectedItem.getItemId());
                 txtItemQuantity.setText(Integer.toString(selectedItem.getItemQuantity()));
@@ -147,9 +141,7 @@ public class OrderForm implements Initializable {
         });
     }
 
-    public void disableTextFields(){
-        txtCustomerId.setDisable(true);
-        txtItemId.setDisable(true);
-        txtItemQuantity.setDisable(true);
+    public void btnFinish_OnAction() {
+
     }
 }
