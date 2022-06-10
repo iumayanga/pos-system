@@ -36,7 +36,7 @@ public class CreateEntry {
     public int orders(OrderTM orderTM){
         try {
             Statement statement = connection.createStatement();
-            successful = statement.executeUpdate("INSERT INTO orders VALUES('"+orderTM.getCustomerId()+"', '"+orderTM.getItemId()+"', '"+orderTM.getItemQuantity()+"', '"+orderTM.getValue()+"')");
+            successful = statement.executeUpdate("INSERT INTO orders VALUES('"+orderTM.getId()+"', '"+orderTM.getCustomerId()+"', '"+orderTM.getItemId()+"', '"+orderTM.getItemQuantity()+"', '"+orderTM.getValue()+"')");
         }catch (Exception e){
             System.out.println(e);
         }
