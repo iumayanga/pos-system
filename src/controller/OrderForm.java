@@ -108,6 +108,10 @@ public class OrderForm implements Initializable {
             tblOrder.getSelectionModel().clearSelection();
 
             txtId.setDisable(true);
+            txtCustomerId.setDisable(false);
+            txtItemId.setDisable(false);
+            txtItemQuantity.setDisable(false);
+            btnSave.setDisable(false);
             txtCustomerId.clear();
             txtItemId.clear();
             txtItemQuantity.clear();
