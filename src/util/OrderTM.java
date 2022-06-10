@@ -10,9 +10,7 @@ public class OrderTM {
     public OrderTM() {
     }
 
-    public OrderTM(String id, String customerId, String itemId, int itemQuantity, int value) {
-        this.id = id;
-        this.customerId = customerId;
+    public OrderTM(String itemId, int itemQuantity, int value) {
         this.itemId = itemId;
         this.itemQuantity = itemQuantity;
         this.value = value;

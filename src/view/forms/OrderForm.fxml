@@ -16,11 +16,9 @@
       <TextField fx:id="txtItemQuantity" layoutX="12.0" layoutY="172.0" prefHeight="31.0" prefWidth="373.0" promptText="Quantity" />
       <TableView fx:id="tblOrder" layoutX="12.0" layoutY="263.0" prefHeight="325.0" prefWidth="373.0">
         <columns>
-          <TableColumn prefWidth="57.0" text="id" />
-          <TableColumn prefWidth="75.0" text="customer" />
-          <TableColumn prefWidth="71.0" text="item" />
-          <TableColumn prefWidth="70.0" text="quantity" />
-            <TableColumn prefWidth="99.0" text="value" />
+          <TableColumn prefWidth="148.0" text="item" />
+          <TableColumn prefWidth="92.0" text="quantity" />
+          <TableColumn prefWidth="132.0" text="value" />
         </columns>
       </TableView>
       <Button fx:id="btnFinish" layoutX="328.0" layoutY="225.0" mnemonicParsing="false" onAction="#btnFinish_OnAction" text="Finish" />

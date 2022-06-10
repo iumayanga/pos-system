@@ -16,6 +16,7 @@ import util.ItemTM;
 import util.OrderTM;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -33,6 +34,8 @@ public class OrderForm implements Initializable {
     int successful = 0;
 
     GetData getData = new GetData();
+
+    ArrayList<OrderTM> arrayList = new ArrayList<>();
 
     public void btnBack_OnAction() {
         Stage stage = (Stage) btnBack.getScene().getWindow();
@@ -69,17 +72,17 @@ public class OrderForm implements Initializable {
         }
 
         if (successful > 0){
-            String id = order.getId();
-            String customerId = order.getCustomerId();
+            arrayList.add(order);
+
             String itemId = order.getItemId();
             int itemQuantity = order.getItemQuantity();
             int value = order.getValue();
 
             ObservableList<OrderTM> orderTable = tblOrder.getItems();
-            orderTable.add(new OrderTM(id, customerId, itemId, itemQuantity, value));
+            orderTable.add(new OrderTM(itemId, itemQuantity, value));
 
             txtId.setDisable(true);
-            txtCustomerId.clear();
+            txtCustomerId.setDisable(true);
             txtItemId.clear();
             txtItemQuantity.clear();
         }
@@ -91,7 +94,7 @@ public class OrderForm implements Initializable {
 
         if(buttonType.get() == ButtonType.YES){
             DeleteEntry deleteEntry = new DeleteEntry();
-            successful = deleteEntry.orders(txtId.getText());
+            successful = deleteEntry.orders(txtId.getText(), txtCustomerId.getText(), txtItemId.getText());
 
             ItemTM item = new ItemTM();
             item = getData.singleItem(txtItemId.getText());
@@ -103,16 +106,23 @@ public class OrderForm implements Initializable {
         }
 
         if (successful > 0){
+            for (int i = 0; i < arrayList.size(); i++) {
+                OrderTM orderTM =  arrayList.get(i);
+
+                if (orderTM.getId()==txtId.getText() && orderTM.getCustomerId()==txtCustomerId.getText() && orderTM.getItemId()==txtItemId.getText()){
+                    arrayList.remove(i);
+                }
+            }
+
             OrderTM selectedItem = tblOrder.getSelectionModel().getSelectedItem();
             tblOrder.getItems().remove(selectedItem);
             tblOrder.getSelectionModel().clearSelection();
 
             txtId.setDisable(true);
-            txtCustomerId.setDisable(false);
+            txtCustomerId.setDisable(true);
             txtItemId.setDisable(false);
             txtItemQuantity.setDisable(false);
             btnSave.setDisable(false);
-            txtCustomerId.clear();
             txtItemId.clear();
             txtItemQuantity.clear();
         }
@@ -120,11 +130,9 @@ public class OrderForm implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tblOrder.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
-        tblOrder.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("customerId"));
-        tblOrder.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("itemId"));
-        tblOrder.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("itemQuantity"));
-        tblOrder.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("value"));
+        tblOrder.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("itemId"));
+        tblOrder.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("itemQuantity"));
+        tblOrder.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("value"));
 
         tblOrder.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<OrderTM>() {
             @Override
@@ -146,6 +154,12 @@ public class OrderForm implements Initializable {
     }
 
     public void btnFinish_OnAction() {
+        Bill bill = new Bill();
+        bill.setList(arrayList);
 
+        Stage stage = (Stage) btnFinish.getScene().getWindow();
+        stage.close();
+        FormLoader formLoader = new FormLoader();
+        formLoader.loadForm("Bill");
     }
 }
