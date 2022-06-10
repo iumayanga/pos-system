@@ -13,7 +13,7 @@
         <TextField fx:id="txtName" layoutX="14.0" layoutY="128.0" prefHeight="31.0" prefWidth="372.0" promptText="name" />
         <TextField fx:id="txtQuantity" layoutX="14.0" layoutY="172.0" prefHeight="31.0" prefWidth="372.0" promptText="quantity" />
         <TextField fx:id="txtUnitPrice" layoutX="14.0" layoutY="216.0" prefHeight="31.0" prefWidth="372.0" promptText="unit price" />
-        <Button fx:id="btnSave" layoutX="14.0" layoutY="270.0" mnemonicParsing="false" onAction="#btnSave_OnAction" prefHeight="31.0" prefWidth="56.0" text="Save" />
+        <Button fx:id="btnSave" layoutX="14.0" layoutY="270.0" mnemonicParsing="false" onAction="#btnSave_OnAction" prefHeight="31.0" prefWidth="80.0" text="Save" />
         <Button fx:id="btnDelete" layoutX="317.0" layoutY="270.0" mnemonicParsing="false" onAction="#btnDelete_OnAction" prefHeight="31.0" prefWidth="69.0" text="Delete" />
         <TableView fx:id="tblItem" layoutX="14.0" layoutY="312.0" prefHeight="274.0" prefWidth="372.0">
             <columns>
