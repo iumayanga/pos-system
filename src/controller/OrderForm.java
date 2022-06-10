@@ -30,8 +30,12 @@ public class OrderForm implements Initializable {
     public TableView<OrderTM> tblOrder;
     public Button btnFinish;
     public TextField txtId;
+    public TextArea txtAreaBill;
+    public Button btnPrint;
 
     int successful = 0;
+
+    int billAmount = 0;
 
     GetData getData = new GetData();
 
@@ -154,12 +158,58 @@ public class OrderForm implements Initializable {
     }
 
     public void btnFinish_OnAction() {
-        Bill bill = new Bill();
-        bill.setList(arrayList);
+        billHead();
+        billBody();
 
-        Stage stage = (Stage) btnFinish.getScene().getWindow();
-        stage.close();
-        FormLoader formLoader = new FormLoader();
-        formLoader.loadForm("Bill");
+        for ( int i = 0; i<tblOrder.getItems().size(); i++) {
+            tblOrder.getItems().clear();
+        }
+
+        txtId.clear();
+        txtCustomerId.clear();
+        txtItemId.clear();
+        txtItemQuantity.clear();
+        txtId.setDisable(true);
+        txtCustomerId.setDisable(true);
+        txtItemId.setDisable(true);
+        txtItemQuantity.setDisable(true);
+    }
+
+    public void btnPrint_OnAction() {
+        System.out.println(txtAreaBill.getText());
+
+        txtAreaBill.clear();
+
+        txtId.setDisable(false);
+        txtCustomerId.setDisable(false);
+        txtItemId.setDisable(false);
+        txtItemQuantity.setDisable(false);
+    }
+
+    public void billHead(){
+        OrderTM orderTM = new OrderTM();
+        orderTM = arrayList.get(0);
+        txtAreaBill.appendText("FOOD CITY\n" +
+                "===================================\n" +
+                "Order id: '"+orderTM.getId()+"'\n" +
+                "Customer id: '"+orderTM.getCustomerId()+"'\n" +
+                "===================================\n\n\n");
+    }
+
+    public void billBody(){
+        OrderTM orderTM = new OrderTM();
+        ItemTM itemTM = new ItemTM();
+        txtAreaBill.appendText("Item | Quantity | Unit Price | Value \n");
+
+        for (int i = 0; i < arrayList.size(); i++) {
+            orderTM =  arrayList.get(i);
+            itemTM = getData.singleItem(orderTM.getItemId());
+
+            txtAreaBill.appendText("'"+itemTM.getName()+"' | '"+orderTM.getItemQuantity()+"' | '"+itemTM.getUnitPrice()+"' | '"+orderTM.getValue()+"'\n");
+
+            billAmount += orderTM.getValue();
+        }
+
+        txtAreaBill.appendText("Total amount: "+billAmount);
     }
 }
