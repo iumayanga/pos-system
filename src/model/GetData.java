@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import util.CustomerTM;
 import util.DatabaseConnection;
 import util.ItemTM;
-import util.OrderTM;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -39,22 +38,6 @@ public class GetData {
 
             while (resultSet.next()){
                 observableList.add(new ItemTM(resultSet.getString("iId"), resultSet.getString("iName"), Integer.parseInt(resultSet.getString("iQuantity")), Integer.parseInt(resultSet.getString("iUnitPrice"))));
-            }
-        }catch (Exception e){
-            System.out.println(e);
-        }
-
-        return observableList;
-    }
-
-    public ObservableList<OrderTM> orders(){
-        ObservableList<OrderTM> observableList = FXCollections.observableArrayList();
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");
-
-            while (resultSet.next()){
-                observableList.add(new OrderTM(resultSet.getString("cId"), resultSet.getString("iId"), Integer.parseInt(resultSet.getString("iQuantity")), Integer.parseInt(resultSet.getString("oValue"))));
             }
         }catch (Exception e){
             System.out.println(e);
