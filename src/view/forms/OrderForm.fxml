@@ -9,19 +9,21 @@
 <AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: yellow;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OrderForm">
    <children>
       <Button fx:id="btnBack" mnemonicParsing="false" onAction="#btnBack_OnAction" text="&lt;-" />
-      <Button fx:id="btnNew" layoutX="324.0" layoutY="31.0" mnemonicParsing="false" onAction="#btnNew_OnAction" text="+ new" />
       <Button fx:id="btnSave" layoutX="12.0" layoutY="225.0" mnemonicParsing="false" onAction="#btnSave_OnAction" text="Save" />
-      <Button fx:id="btnDelete" layoutX="316.0" layoutY="225.0" mnemonicParsing="false" onAction="#btnDelete_OnAction" prefHeight="31.0" prefWidth="69.0" text="Delete" />
+      <Button fx:id="btnDelete" layoutX="166.0" layoutY="225.0" mnemonicParsing="false" onAction="#btnDelete_OnAction" prefHeight="31.0" prefWidth="69.0" text="Delete" />
       <TextField fx:id="txtCustomerId" layoutX="12.0" layoutY="86.0" prefHeight="31.0" prefWidth="373.0" promptText="Customer id" />
       <TextField fx:id="txtItemId" layoutX="12.0" layoutY="129.0" prefHeight="31.0" prefWidth="373.0" promptText="Item id" />
       <TextField fx:id="txtItemQuantity" layoutX="12.0" layoutY="172.0" prefHeight="31.0" prefWidth="373.0" promptText="Quantity" />
       <TableView fx:id="tblOrder" layoutX="12.0" layoutY="263.0" prefHeight="325.0" prefWidth="373.0">
         <columns>
-          <TableColumn prefWidth="93.0" text="customer" />
-          <TableColumn prefWidth="85.0" text="item" />
-          <TableColumn prefWidth="87.0" text="quantity" />
-          <TableColumn prefWidth="107.0" text="value" />
+          <TableColumn prefWidth="57.0" text="id" />
+          <TableColumn prefWidth="75.0" text="customer" />
+          <TableColumn prefWidth="71.0" text="item" />
+          <TableColumn prefWidth="70.0" text="quantity" />
+            <TableColumn prefWidth="99.0" text="value" />
         </columns>
       </TableView>
+      <Button fx:id="btnFinish" layoutX="328.0" layoutY="225.0" mnemonicParsing="false" onAction="#btnFinish_OnAction" text="Finish" />
+      <TextField fx:id="txtId" layoutX="12.0" layoutY="44.0" prefHeight="31.0" prefWidth="373.0" promptText="Order id" />
    </children>
 </AnchorPane>
