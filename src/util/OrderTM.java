@@ -1,6 +1,7 @@
 package util;
 
 public class OrderTM {
+    private String id;
     private String customerId;
     private String itemId;
     private int itemQuantity;
@@ -9,7 +10,8 @@ public class OrderTM {
     public OrderTM() {
     }
 
-    public OrderTM(String customerId, String itemId, int itemQuantity, int value) {
+    public OrderTM(String id, String customerId, String itemId, int itemQuantity, int value) {
+        this.id = id;
         this.customerId = customerId;
         this.itemId = itemId;
         this.itemQuantity = itemQuantity;
@@ -46,5 +48,13 @@ public class OrderTM {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
