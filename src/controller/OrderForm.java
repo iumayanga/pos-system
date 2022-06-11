@@ -17,6 +17,7 @@ import util.OrderTM;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -110,11 +111,12 @@ public class OrderForm implements Initializable {
         }
 
         if (successful > 0){
-            for (int i = 0; i < arrayList.size(); i++) {
-                OrderTM orderTM =  arrayList.get(i);
+            Iterator<OrderTM> iterator = arrayList.iterator();
+            while (iterator.hasNext()){
+                OrderTM orderTM = iterator.next();
 
-                if (orderTM.getId()==txtId.getText() && orderTM.getCustomerId()==txtCustomerId.getText() && orderTM.getItemId()==txtItemId.getText()){
-                    arrayList.remove(orderTM);
+                if (orderTM.getItemId().equals(txtItemId.getText())){
+                    iterator.remove();
                 }
             }
 
@@ -207,13 +209,13 @@ public class OrderForm implements Initializable {
     public void billBody(){
         OrderTM orderTM = new OrderTM();
         ItemTM itemTM = new ItemTM();
-        txtAreaBill.appendText("Item  ||  Quantity  ||  Unit Price  ||  Value\n\n");
+        txtAreaBill.appendText("\tItem  \t||  Quantity  \t||  Unit Price  \t||  Value\n\n");
 
         for (int i = 0; i < arrayList.size(); i++) {
             orderTM =  arrayList.get(i);
             itemTM = getData.singleItem(orderTM.getItemId());
 
-            txtAreaBill.appendText(i+1 + ".\t"+itemTM.getName()+"  ||  "+orderTM.getItemQuantity()+"  ||  "+itemTM.getUnitPrice()+"  ||  "+orderTM.getValue()+"\n");
+            txtAreaBill.appendText(i+1 + ".\t"+itemTM.getName()+"  \t||  "+orderTM.getItemQuantity()+"  \t\t||  "+itemTM.getUnitPrice()+"  \t\t\t||  "+orderTM.getValue()+"\n");
 
             billAmount += orderTM.getValue();
         }
